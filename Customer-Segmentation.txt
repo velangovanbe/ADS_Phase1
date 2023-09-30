@@ -23,6 +23,7 @@ These models can identify similarities between user groups that are often unnoti
 K-Means clustering is one of the major applications of customer segmentation. 
 The goal of K-Means is to group data points into distinct non-overlapping subgroups. 
 
+Creating a Python program for customer segmentation typically involves using machine learning or clustering techniques to group customers based on certain characteristics or behavior. One of the most common methods for customer segmentation is using K-means clustering. Below is an example of how to perform customer segmentation using K-means clustering on a sample dataset using Python and the popular libraries NumPy, pandas, scikit-learn, and matplotlib:
 
 # Import necessary libraries
 import pandas as pd
@@ -109,7 +110,3 @@ Sample data with cluster labels:
 These outputs will help you understand how the customers in your dataset are segmented 
 into clusters based on their income and spending score characteristics. You can analyze 
 and interpret the clusters based on your specific dataset and business goals.
-
-
-
-
