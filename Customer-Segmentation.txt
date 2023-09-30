@@ -1,0 +1,115 @@
+//Customer segmentation:
+
+Customer segme.ntation is the process of dividing customers into groups for marketing purposes.
+Data scientists use unsupervised machine learning algorithms to build customer segmentation models. 
+These models can identify similarities between user groups that are often unnoticed by humans. 
+
+//Here are some steps for customer segmentation in Python: 
+
+1.Gather the data.
+2.Create a Recency Frequency Monetary (RFM) table.
+3.Manage skewness and scale each variable.
+4.Explore the data.
+5.Cluster the data.
+6.Interpret the result.
+
+//Data scientists can use behavioral indicators to segment customer databases. These indicators can include: 
+
+1.How often users return
+2.Their most-used features
+3.How often they buy new credits
+4.When they're most likely to upgrade their subscription
+
+K-Means clustering is one of the major applications of customer segmentation. 
+The goal of K-Means is to group data points into distinct non-overlapping subgroups. 
+
+
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+# Load the sample customer dataset (replace 'sample_customer_data.csv' with your dataset)
+data = pd.read_csv('sample_customer_data.csv')
+
+# Select relevant features for clustering (e.g., income and spending score)
+X = data[['Income', 'Spending_Score']]
+
+# Standardize the features (important for K-means)
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Determine the optimal number of clusters using the Elbow method
+wcss = []
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10, random_state=0)
+    kmeans.fit(X_scaled)
+    wcss.append(kmeans.inertia_)
+
+# Plot the Elbow method results to choose the optimal number of clusters
+plt.figure(figsize=(8, 6))
+plt.plot(range(1, 11), wcss, marker='o', linestyle='--')
+plt.title('Elbow Method')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS (Within-Cluster Sum of Squares)')
+plt.grid()
+plt.show()
+
+# Based on the Elbow method, choose the optimal number of clusters (e.g., 3)
+optimal_clusters = 3
+
+# Perform K-means clustering with the chosen number of clusters
+kmeans = KMeans(n_clusters=optimal_clusters, init='k-means++', max_iter=300, n_init=10, random_state=0)
+kmeans.fit(X_scaled)
+
+# Add cluster labels to the original dataset
+data['Cluster'] = kmeans.labels_
+
+# Visualize the clusters
+plt.figure(figsize=(10, 8))
+for cluster in range(optimal_clusters):
+    plt.scatter(data[data['Cluster'] == cluster]['Income'], data[data['Cluster'] == cluster]['Spending_Score'], label=f'Cluster {cluster + 1}')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='red', label='Centroids')
+plt.title('Customer Segmentation')
+plt.xlabel('Income')
+plt.ylabel('Spending Score')
+plt.legend()
+plt.show()
+
+# You can now analyze and interpret the customer segments
+print("Cluster Centers (Income, Spending Score):")
+for i, center in enumerate(kmeans.cluster_centers_):
+    print(f"Cluster {i+1}: ({center[0]:.2f}, {center[1]:.2f})")
+
+# Display the first few rows of the dataset with cluster labels
+print("\nSample data with cluster labels:")
+print(data.head())
+
+Output:
+
+//The program will print the coordinates of the cluster centers, such as:
+
+Cluster Centers (Income, Spending Score):
+Cluster 1: (-0.65, 1.01)
+Cluster 2: (1.06, -1.28)
+Cluster 3: (-0.72, -0.43)
+
+//The first few rows of the dataset with cluster labels will be displayed:
+
+Sample data with cluster labels:
+    Customer ID  Income  Spending Score  Cluster
+0             1      15              39        2
+1             2      15              81        0
+2             3      16               6        2
+3             4      16              77        0
+4             5      17              40        2
+
+These outputs will help you understand how the customers in your dataset are segmented 
+into clusters based on their income and spending score characteristics. You can analyze 
+and interpret the clusters based on your specific dataset and business goals.
+
+
+
+
