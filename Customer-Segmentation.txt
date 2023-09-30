@@ -1,4 +1,4 @@
-//Customer segmentation:
+//Customer segmentation using data science:
 
 Customer segme.ntation is the process of dividing customers into groups for marketing purposes.
 Data scientists use unsupervised machine learning algorithms to build customer segmentation models. 
